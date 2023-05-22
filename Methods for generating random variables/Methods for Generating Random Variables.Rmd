@@ -2,7 +2,9 @@
 title: "Generating Random Variables"
 author: "Stefan Dan,"
 date: "2023-05-17"
-output: html_document
+output: 
+  html_document:
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
