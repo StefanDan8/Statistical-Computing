@@ -88,7 +88,7 @@ Comparison between empirical and theoretical quantiles
 p = seq(0.1, 0.9, by = 0.1)
 sampleqs = quantile(x,p);
 theoryqs = coolerQ(p);
-se = sqrt(p*(1-p)/(n*(1/2*exp(-abs(theoryqs)^2))));
+se = sqrt(p*(1-p)/(n*(1/2*exp(-abs(theoryqs)))^2));
 devs = round(cbind((sampleqs-theoryqs)/se),2);
 df <- data.frame(p,sampleqs,theoryqs,se, devs)
 print(df)
