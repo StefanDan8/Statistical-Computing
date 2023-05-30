@@ -20,8 +20,8 @@ print(U(10, 2, 6))
 ```
 
 ```
-##  [1] 4.114420 3.894277 3.154818 5.080674 4.645040 5.031382 3.133052 5.418136
-##  [9] 2.229390 2.701907
+##  [1] 3.791211 2.926128 3.325273 4.867526 2.548219 3.826068 3.806218 4.093606
+##  [9] 2.890593 4.743177
 ```
 Simulation checks
 
@@ -34,7 +34,8 @@ hist(U(1000, a, b), prob = T, col = "green4", las = 1)
 ```
 
 <img src="Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-2-1.png" width="50%" /><img src="Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-2-2.png" width="50%" />
-Inverse transform method
+
+## Inverse transform method
 
 Use the fact that the cdf of $F_x(x)$ is the same as the cdf of $U(0,1)$, i.e 
 $F_x(x) \sim U(0,1)$
@@ -107,20 +108,20 @@ print(df)
 ```
 
 ```
-##       p     sampleqs   theoryqs          se  devs
-## 10% 0.1 -1.564287873 -1.6094379 0.015492113  2.91
-## 20% 0.2 -0.920939026 -0.9162907 0.008607744 -0.54
-## 30% 0.3 -0.519628296 -0.5108256 0.007383931 -1.19
-## 40% 0.4 -0.220168429 -0.2231436 0.007102857  0.42
-## 50% 0.5  0.007895757  0.0000000 0.007071068  1.12
-## 60% 0.6  0.230932938  0.2231436 0.007102857  1.10
-## 70% 0.7  0.529051879  0.5108256 0.007383931  2.47
-## 80% 0.8  0.946768265  0.9162907 0.008607744  3.54
-## 90% 0.9  1.658554949  1.6094379 0.015492113  3.17
+##       p    sampleqs   theoryqs          se  devs
+## 10% 0.1 -1.57851814 -1.6094379 0.015492113  2.00
+## 20% 0.2 -0.91298175 -0.9162907 0.008607744  0.38
+## 30% 0.3 -0.49891610 -0.5108256 0.007383931  1.61
+## 40% 0.4 -0.22183176 -0.2231436 0.007102857  0.18
+## 50% 0.5 -0.01161109  0.0000000 0.007071068 -1.64
+## 60% 0.6  0.20374675  0.2231436 0.007102857 -2.73
+## 70% 0.7  0.48646168  0.5108256 0.007383931 -3.30
+## 80% 0.8  0.87038363  0.9162907 0.008607744 -5.33
+## 90% 0.9  1.53988558  1.6094379 0.015492113 -4.49
 ```
 
 
-Acceptance-Rejection Method
+## Acceptance-Rejection Method
 
 Example: Generate $X \sim N(0,1)$ using Student t distribution with 2 degrees
 of freedom:
@@ -201,7 +202,7 @@ print(paste("Number of iterations needed: ", niter));
 ```
 
 ```
-## [1] "Number of iterations needed:  1267"
+## [1] "Number of iterations needed:  1261"
 ```
 
 ```r
@@ -227,23 +228,23 @@ Empirical versus theoretical quantiles analysis
 p = seq(0.1, 0.9, by = 0.1)
 theoryqs = qnorm(p)
 sampleqs = quantile(x, p)
-se = sqrt(p*(1-p)/(n*dnorm(sampleqs)^2))
+se = sqrt(p*(1-p)/(n*dnorm(theoryqs)^2))
 devs = round(cbind((sampleqs-theoryqs)/se),2);
 df <- data.frame(p,sampleqs,theoryqs,se, devs)
 print(df)
 ```
 
 ```
-##       p    sampleqs   theoryqs         se devs
-## 10% 0.1 -1.14046168 -1.2815516 0.04556636 3.10
-## 20% 0.2 -0.78232658 -0.8416212 0.04305778 1.38
-## 30% 0.3 -0.48615181 -0.5244005 0.04088095 0.94
-## 40% 0.4 -0.22353340 -0.2533471 0.03981491 0.75
-## 50% 0.5  0.03717566  0.0000000 0.03966067 0.94
-## 60% 0.6  0.30205170  0.2533471 0.04064499 1.20
-## 70% 0.7  0.60252768  0.5244005 0.04355446 1.79
-## 80% 0.8  0.94901909  0.8416212 0.04974172 2.16
-## 90% 0.9  1.39203837  1.2815516 0.06266034 1.76
+##       p    sampleqs   theoryqs         se  devs
+## 10% 0.1 -1.29410845 -1.2815516 0.05405654 -0.23
+## 20% 0.2 -0.81818961 -0.8416212 0.04518154  0.52
+## 30% 0.3 -0.43206182 -0.5244005 0.04167870  2.22
+## 40% 0.4 -0.16843813 -0.2533471 0.04009896  2.12
+## 50% 0.5  0.03657168  0.0000000 0.03963327  0.92
+## 60% 0.6  0.31201107  0.2533471 0.04009896  1.46
+## 70% 0.7  0.56456116  0.5244005 0.04167870  0.96
+## 80% 0.8  0.90755727  0.8416212 0.04518154  1.46
+## 90% 0.9  1.30488793  1.2815516 0.05405654  0.43
 ```
 
 ```r
@@ -255,5 +256,157 @@ legend(0.1, 1, legend=c("generated", "theoretical"),
 
 ![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
+## Transformation methods
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Relationships between common distributions
+
+1. $Z \sim N(0,1) \implies Z^2 \sim \chi_1^2$
+
+2. $U \sim \chi_m^2 , V \sim \chi_n^2 \text{ independent} \implies \frac{U/m}{V/n} \sim F_{m,n}$
+
+3. $Z \sim N(0,1), U \sim \chi_n^2 \text{ independent} \implies \frac{Z}{\sqrt{U/n}} \sim t_n$
+
+4. $U \sim Gamma(\alpha,\lambda), V \sim Gamma(\beta, \lambda) \text{ independent} \implies \frac{U}{U+V} \sim Beta(\alpha, \beta)$
+
+#### Example
+Generate 1000 random variables from the F distribution with $m, n$ degrees of 
+freedom using the *rchisq* function for $(m,n) = (1,3), (10,10), (100,100)$
+
+
+```r
+f <- function(N, m , n){
+  U = rchisq(N, m)
+  V = rchisq(N, n)
+  F = U/m*V/n
+return(F)
+}
+N = 1000
+m = c(1, 10, 100)
+n = c(3, 10, 100)
+for(i in 1:length(m)){
+  F = f(N,m[i],n[i])
+  new_title = paste0('$F_{', m[i],',', n[i], '}$', sep = '')
+  hist(F,las = 1, prob = T, breaks = 40, main = latex2exp::TeX(new_title))
+  x = seq(0,max(F), length.out = 100)
+  lines(x, df(x, m[i], n[i]), lwd = 2)
+  abline(v=mean(F), col='blue', lwd = 2)
+  # quantile plot
+  p = seq(0.1, 0.9, by = 0.02)
+  theoryqs = qf(p, m[i],n[i])
+  sampleqs = quantile(F, p)
+  plot(p, sampleqs, bg = 'red', pch = 21, main = paste("Quantile plot for F(", m[i],',', n[i],")", sep =''))
+  points(p, theoryqs, bg = 'green', pch = 21)
+  legend(0.1, 1, legend=c("generated", "theoretical"),
+       col=c("red","green"), pch=c(16,16), bty='n')
+
+}
+```
+
+![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-12-1.png)![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-12-2.png)![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-12-3.png)![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-12-4.png)![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-12-5.png)![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-12-6.png)
+
+
+
+
+```r
+m = 10
+n = 10
+F = rf(1000, m, n)
+p = seq(0.1, 0.9, by = 0.02)
+  theoryqs = qf(p, m, n)
+  sampleqs = quantile(F, p)
+  plot(p, sampleqs, bg = 'red', pch = 21, main = paste("Quantile plot for 
+                              F(", m,',', n,") with R's rf function", sep =''))
+  points(p, theoryqs, bg = 'green', pch = 21)
+  legend(0.1, 1, legend=c("generated", "theoretical"),
+       col=c("red","green"), pch=c(16,16), bty='n')
+```
+
+![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+
+
+## Sums and mixtures
+
+The t-distribution with $v$ degrees of freedom is a continuous mixture
+$X|W \sim N(0, W)$ with $W\sim IG(\frac{v}{2}, \frac{v}{2})$, the inverse
+gamma distribution.
+
+Task: generate 1000 random variables $t_4$-distributed.
+
+Algorithm:
+
+1) generate random variable U from the mixture distribution
+2) generate random variable from the distribution with parameter U
+
+
+```r
+N = 1000
+v = 4
+U = invgamma::rinvgamma(N, v/2, rate = v/2) # invgamma is quite dubious and switches scale and rate
+t = rnorm(N, 0, sqrt(U))
+hist(t, las = 1, prob = TRUE,  breaks = 40, 
+     main = latex2exp::TeX("$ t_4$"))
+x = seq(min(t), max(t), length.out = 300)
+lines(x, dt(x,df = v), lwd = 2)
+```
+
+![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+
+```r
+p = seq(0.1, 0.9, by = 0.1)
+theoryqs = qt(p, v) 
+sampleqs = quantile(t, p)
+se = sqrt(p*(1-p)/(N*dt(theoryqs, v)^2))
+devs = round(cbind((sampleqs-theoryqs)/se),2);
+df <- data.frame(p,sampleqs,theoryqs,se, devs)
+print(df)
+```
+
+```
+##       p     sampleqs   theoryqs         se devs
+## 10% 0.1 -1.462470397 -1.5332063 0.08035218 0.88
+## 20% 0.2 -0.918885798 -0.9409646 0.05560736 0.40
+## 30% 0.3 -0.567523869 -0.5686491 0.04693344 0.02
+## 40% 0.4 -0.268480696 -0.2707223 0.04323026 0.05
+## 50% 0.5  0.002676505  0.0000000 0.04216370 0.06
+## 60% 0.6  0.293532312  0.2707223 0.04323026 0.53
+## 70% 0.7  0.599776068  0.5686491 0.04693344 0.66
+## 80% 0.8  0.975038730  0.9409646 0.05560736 0.61
+## 90% 0.9  1.602066069  1.5332063 0.08035218 0.86
+```
+
+##### Negative Binomial as mixture of Poisson and Gamma
+
+
+
+```r
+N = 1000
+r = 4
+beta = 3
+lambda = rgamma(N, r , beta)
+x <- rpois(N, lambda)
+barplot(table(x)/N, las = 1)
+a = seq(0, max(x), by = 1)
+lines(a, dnbinom(a, r, beta/(1+beta)))
+```
+
+![](Methods-for-Generating-Random-Variables_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+
+```r
+sim=table(x)/N
+uniquex=sort(unique(x))
+truth=dnbinom(uniquex,r,beta/(1+beta))
+diff=sim-truth
+twose=2*sqrt(truth*(1-truth)/N)
+round(rbind(uniquex,sim,truth,diff,twose),3)
+```
+
+```
+##             0      1     2      3      4     5      6     7     8     9
+## uniquex 0.000  1.000 2.000  3.000  4.000 5.000  6.000 7.000 8.000 9.000
+## sim     0.325  0.311 0.202  0.093  0.039 0.019  0.005 0.003 0.002 0.001
+## truth   0.316  0.316 0.198  0.099  0.043 0.017  0.006 0.002 0.001 0.000
+## diff    0.009 -0.005 0.004 -0.006 -0.004 0.002 -0.001 0.001 0.001 0.001
+## twose   0.029  0.029 0.025  0.019  0.013 0.008  0.005 0.003 0.002 0.001
+```
+
+
