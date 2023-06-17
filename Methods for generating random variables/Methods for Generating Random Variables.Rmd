@@ -312,4 +312,58 @@ twose=2*sqrt(truth*(1-truth)/N)
 round(rbind(uniquex,sim,truth,diff,twose),3)
 ```
 
+## Multivariate Normal distribution random variable generator
+
+To generate $Y \sim N_p(\mu,\Sigma)$ from a sequence $Z_1, ... Z_p \sim N(0,1)$:
+
+Algorithm:
+1. Cholesky Decomposition: $\Sigma = Q^T*Q$.
+2. Set $Z = (Z_1, Z_2,..., Z_p)^T \sim N_p(0,I)$.
+3. Set $Y = Q^T * Z + \mu \sim N_p(\mu, \Sigma)$.
+
+Here, an efficient method for $n$ random variables MVN-distributed:
+
+```{r}
+rmvnormal <- function(n, mu, sigma){
+  p = length((mu));
+  Q = chol(sigma);
+  Z = matrix(rnorm(n*p), nrow = n);
+  Y = Z%*%Q + matrix(mu, nrow = n, ncol = p, byrow = TRUE)
+  return(Y)
+}
+```
+
+Test:
+$\mu = (1,2)$
+$\Sigma = \begin{bmatrix}2 & 1.2 \\ 1.2&5 \end{bmatrix}$
+```{r}
+# parameters
+n= 100;
+mu = c(1,2);
+sigma = matrix(c(2, 1.2, 1.2, 5), nrow = 2);
+# generate random variables
+Y = rmvnormal(n, mu, sigma); # Y is n x 2 array; each line represents one rv
+
+# plot
+plot(Y[,1], Y[,2], las = 1, bg = "salmon", pch = 21)
+
+# checks:
+sample_mu = round(apply(Y, 2, mean),2)
+sample_sigma = round(cov(Y), 2)
+print(sample_mu)
+print(sample_sigma)
+
+```
+```{r}
+n = 1000;
+Y = rmvnormal(n, mu, sigma);
+plot(Y[,1], Y[,2], las = 1, bg = "salmon", pch = 21)
+
+# checks:
+sample_mu = round(apply(Y, 2, mean),2)
+sample_sigma = round(cov(Y), 2)
+print(sample_mu)
+print(sample_sigma)
+```
+
 
